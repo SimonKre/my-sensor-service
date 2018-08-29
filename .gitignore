@@ -22,9 +22,11 @@ cwallet.sso.lck### JetBrains template
 .idea/**/tasks.xml
 .idea/dictionaries
 data/
-# persistence.xml
+*/persistence.xml
 persistence-backup.xml
 persistence.xml.backup
+NexmoSmsService.java
+AuthenticationProviderConfig.java
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
