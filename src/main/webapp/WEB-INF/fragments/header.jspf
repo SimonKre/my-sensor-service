@@ -1,27 +1,41 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<Style>
+    .navbar-semitransparent {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+</Style>
 <header>
-    <nav class="navbar navbar-expand-sm bg-yellow navbar-dark">
-        <ul class="navbar-nav">
-            <a class="navbar-brand" href="<c:url value="/" />">MySensor: <security:authentication property='principal.username'/></a>
+    <nav class="navbar navbar-expand-sm navbar-semitransparent navbar-dark sticky-top">
+        <ul class="navbar-nav mr-auto">
+            <a class="navbar-brand" href="<c:url value="/" />">MySensor</a>
             <li class="nav-item active">
                 <a class="nav-link" href="<c:url value="/" />">Sensory</a>
             </li>
+            <security:authorize access="hasRole('ROLE_ADMIN')">
+                <span class="navbar-text">Admin:</span>
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value="/admin/sensor-types" />">Typy sensorów</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value="/admin/sensor-data-types" />">Typy danych</a>
+                </li>
+            </security:authorize>
+
+        </ul>
+        <ul class="navbar-nav mr-right">
+
+            <span class="navbar-text">User: <security:authentication property='principal.username'/> -</span>
             <li class="nav-item">
-                <a class="nav-link" href="<c:url value="/logout" />">Wyloguj</a>
+                <a class="nav-link" href="<c:url value="/edit-user-details" />">
+                    Dane użytkownia
+                </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<c:url value="/edit-user-details" />">Dane użytkownia</a>
+            <li class="nav-item nav-item-right">
+                <a class="nav-link nav-link-right" href="<c:url value="/logout" />">
+                    Wyloguj
+                </a>
             </li>
-                <%--<c:when test="${'Admin' == <security:authentication property='principal.username'/>}">--%>
-                <security:authorize access="hasRole('ROLE_ADMIN')">
-                    <li class="nav-item">
-                        <a class="nav-link" href="<c:url value="/admin/sensor-types" />">Typy sensorów</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<c:url value="/admin/sensor-data-types" />">Typy danych</a>
-                    </li>
-                </security:authorize>
         </ul>
     </nav>
 </header>

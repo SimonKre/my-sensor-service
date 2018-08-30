@@ -74,7 +74,7 @@
                 <form:select type="number" path="sensorType.id"
                               itemLabel="name"
                              class="form-control form-control-sm">
-                    <form:option value="0" label="--Select phone"/>
+                    <form:option value="0" label="--Typ sensora"/>
                     <form:options items="${sensorTypes}" itemValue="id"/>
                 </form:select>
                 <form:errors path="sensorType.id" cssClass="form-text text-danger" element="small"/>

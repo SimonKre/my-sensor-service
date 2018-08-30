@@ -3,6 +3,7 @@
          pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -45,9 +46,9 @@
             margin: 10px auto 10px;
             max-width: 400px;
             padding: 50px 70px 70px 71px;
-            -webkit-box-shadow: 0px 0px 141px 12px rgba(0,0,0,0.64);
-            -moz-box-shadow: 0px 0px 141px 12px rgba(0,0,0,0.64);
-            box-shadow: 0px 0px 141px 12px rgba(0,0,0,0.64);
+            -webkit-box-shadow: 0px 0px 141px 12px rgba(0, 0, 0, 0.64);
+            -moz-box-shadow: 0px 0px 141px 12px rgba(0, 0, 0, 0.64);
+            box-shadow: 0px 0px 141px 12px rgba(0, 0, 0, 0.64);
         }
 
         .login-form .form-group {
@@ -128,17 +129,17 @@
 
                 </div>
                 <div class="forgot">
-                    <c:choose>
-                        <c:when test="${principal.name == null}">
-                            <p><a href='register'>Zarejestruj</a></p>
-                        </c:when>
-                        <c:otherwise>
-                            <p>
-                                Jeśteś zalogowany jako: ${principal.name}
-                                <a href='/logout'> Wyloguj </a>
-                            </p>
-                        </c:otherwise>
-                    </c:choose>
+                    <security:authorize access='!isAuthenticated()'>
+                        <p>
+                            <a href='register'>Zarejestruj</a>
+                        </p>
+                    </security:authorize>
+                    <security:authorize access='isAuthenticated()'>
+                        <p>
+                            Jesteś zalogowany jako: <security:authentication property='principal.username'/>
+                            <br><a href='/logout'> Wyloguj </a>
+                        </p>
+                    </security:authorize>
                 </div>
                 <input type="hidden" name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>
