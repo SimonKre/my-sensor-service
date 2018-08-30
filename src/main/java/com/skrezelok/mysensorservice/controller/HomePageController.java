@@ -43,9 +43,7 @@ public class HomePageController {
         List<Sensor> sensors = sr.findAllWithAlertsByUserDetails(user.getUserDetails());
 
         model.addAttribute("sensors", sensors);
-
         model.addAttribute("sensor", new Sensor());
-        model.addAttribute("principal", auth.getPrincipal());
 
         return "sensors/list";
     }
@@ -72,7 +70,7 @@ public class HomePageController {
         return ("redirect:/");
     }
 
-    @ModelAttribute ("sensorTypes")
+    @ModelAttribute("sensorTypes")
     public List<SensorType> sensorTypes() {
         return str.findAll();
     }
