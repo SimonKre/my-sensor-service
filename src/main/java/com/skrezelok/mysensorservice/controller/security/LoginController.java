@@ -1,15 +1,14 @@
 package com.skrezelok.mysensorservice.controller.security;
 
-import com.nexmo.client.NexmoClient;
+
 import com.nexmo.client.NexmoClientException;
-import com.nexmo.client.auth.AuthMethod;
-import com.nexmo.client.auth.TokenAuthMethod;
-import com.nexmo.client.verify.VerifyResult;
 import com.skrezelok.mysensorservice.entity.UserDetails;
 import com.skrezelok.mysensorservice.entity.security.User;
+import com.skrezelok.mysensorservice.model.PhoneNumber;
 import com.skrezelok.mysensorservice.model.security.UserDto;
 import com.skrezelok.mysensorservice.repository.UserDetailsRepository;
 import com.skrezelok.mysensorservice.repository.security.UserRepository;
+import com.skrezelok.mysensorservice.service.NexmoSmsService;
 import com.skrezelok.mysensorservice.service.security.IUserService;
 import com.skrezelok.mysensorservice.validator.security.EmailExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +37,8 @@ public class LoginController {
     private UserRepository ur;
     @Autowired
     private UserDetailsRepository userDetailsR;
+    @Autowired
+    private NexmoSmsService nexmoSmsService;
 
 
     @GetMapping("/login")
@@ -104,6 +105,18 @@ public class LoginController {
         return "redirect:/";
     }
 
+    @PostMapping("/request-phone-verification")
+    public PhoneNumber verifyPhoneNumber (@ModelAttribute PhoneNumber phoneNumber) {
+        try {
+            nexmoSmsService.requestPhoneVerification(phoneNumber);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NexmoClientException e) {
+            e.printStackTrace();
+        }
+        return phoneNumber;
+    }
+
     @PostMapping("/check-user-details")
     public String saveDetails(@ModelAttribute("userDetails") @Valid UserDetails userDetails, BindingResult result,
                               Authentication auth) {
@@ -114,20 +127,6 @@ public class LoginController {
 
             if ((!userDetails.isPhoneVerified() && userDetails.getPhone().length() != 0)
                     || previousUserDetails.getPhone().equals(userDetails.getPhone())) {
-                //TODO complete phone verification - js?
-//                System.out.println("VERIFING NUMBER");
-//                AuthMethod nexmoAuth = new TokenAuthMethod("81916043", "3dJcQrypFPMflJcc");
-//                NexmoClient client = new NexmoClient(nexmoAuth);
-//                try {
-//                    VerifyResult request = client.getVerifyClient().verify(userDetails.getPhone(), "MySensor");
-//                    System.out.println(request);
-//                    System.out.println(request.getStatus());
-//                    System.out.println(request.getErrorText());
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (NexmoClientException e) {
-//                    e.printStackTrace();
-//                }
             }
 
             userDetailsR.saveAndFlush(userDetails);

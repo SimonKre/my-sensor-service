@@ -76,7 +76,7 @@ public class SmsAlertMessenger implements AlertMessenger {
 
         SmsSubmissionResult[] responses = new SmsSubmissionResult[0];
         try {
-            responses = nss.getClient().submitMessage(new TextMessage(
+            responses = nss.getSmsClient().submitMessage(new TextMessage(
                     "MySensor",
                     phone,
                     message,
