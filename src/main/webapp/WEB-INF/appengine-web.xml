@@ -13,4 +13,9 @@
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
+    <static-files>
+        <include path="/img/**.jpg" ></include>
+        <include path="/js/**.js"></include>
+    </static-files>
+
 </appengine-web-app>

@@ -17,9 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -93,10 +91,9 @@ public class LoginController {
         User user = ur.findByUsername(auth.getName());
         UserDetails userDetails = user.getUserDetails();
 
-        if(userDetails.getPhone() == null  || userDetails.getName() == null ||
-                userDetails.getSurname() == null || userDetails.getPhone().length() == 0  ||
-                userDetails.getName().length() == 0 || userDetails.getSurname().length() == 0)
-        {
+        if (userDetails.getPhone() == null || userDetails.getName() == null ||
+                userDetails.getSurname() == null || userDetails.getPhone().length() == 0 ||
+                userDetails.getName().length() == 0 || userDetails.getSurname().length() == 0) {
             model.addAttribute("userDetails", userDetails);
             model.addAttribute("userName", user.getUsername());
             return "user/edit-details";
@@ -105,10 +102,29 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/request-phone-verification")
-    public PhoneNumber verifyPhoneNumber (@ModelAttribute PhoneNumber phoneNumber) {
+    @PostMapping(path = "/request-phone-verification") //, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public PhoneNumber requestPhoneVerification(@RequestBody PhoneNumber phoneNumber) {
+        System.out.println(phoneNumber);
         try {
             nexmoSmsService.requestPhoneVerification(phoneNumber);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NexmoClientException e) {
+            e.printStackTrace();
+        }
+//        return Response.status(201).entity(phoneNumber).build();
+        return phoneNumber;
+    }
+
+    @PostMapping(path = "/verify-phone") //, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public PhoneNumber verifyPhoneNumber(@RequestBody PhoneNumber phoneNumber) {
+        System.out.println(phoneNumber);
+        try {
+            nexmoSmsService.checkVerificationCode(phoneNumber);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NexmoClientException e) {
@@ -139,14 +155,14 @@ public class LoginController {
         User user = ur.findByUsername(auth.getName());
         UserDetails userDetails = user.getUserDetails();
 
-            model.addAttribute("userDetails", userDetails);
-            model.addAttribute("userName", user.getUsername());
-            return "user/edit-details";
+        model.addAttribute("userDetails", userDetails);
+        model.addAttribute("userName", user.getUsername());
+        return "user/edit-details";
     }
 
     @PostMapping("/edit-user-details")
     public String saveEditedDetails(@ModelAttribute("userDetails") @Valid UserDetails userDetails, BindingResult result,
-                              Authentication auth) {
+                                    Authentication auth) {
         User user = ur.findByUsername(auth.getName());
 
         if (user.getUserDetails().getId() == userDetails.getId()) {

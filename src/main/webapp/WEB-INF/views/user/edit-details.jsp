@@ -11,98 +11,9 @@
 <html>
 <head>
     <title>Dane użytkownika</title>
+    <%@ include file="/WEB-INF/fragments/login-css.jspf" %>
     <%@ include file="/WEB-INF/fragments/bootstrap.jspf" %>
     <%@ include file="/WEB-INF/fragments/header.jspf" %>
-    <Style>
-        body, html {
-            height: 100%;
-            background-image: url("https://edge.alluremedia.com.au/m/g/2015/11/shutterstock_277469792_1080.jpg");
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            background-attachment: fixed;
-            padding: 10px;
-        }
-
-        .form-heading {
-            color: #fff;
-            font-size: 23px;
-        }
-
-        /*.panel h2{ color:#444444; font-size:18px; margin:0 0 8px 0;}*/
-        /*.panel p { color:#777777; font-size:14px; margin-bottom:30px; line-height:24px;}*/
-        .login-form .form-control {
-            background: #f7f7f7 none repeat scroll 0 0;
-            border: 1px solid #d4d4d4;
-            border-radius: 4px;
-            font-size: 14px;
-            height: 50px;
-            line-height: 50px;
-        }
-
-        .main-div {
-            background: #ffffff none repeat scroll 0 0;
-            border-radius: 2px;
-            margin: 10px auto 10px;
-            max-width: 400px;
-            padding: 50px 70px 70px 71px;
-            -webkit-box-shadow: 0px 0px 141px 12px rgba(0,0,0,0.64);
-            -moz-box-shadow: 0px 0px 141px 12px rgba(0,0,0,0.64);
-            box-shadow: 0px 0px 141px 12px rgba(0,0,0,0.64);
-        }
-
-        .login-form .form-group {
-            margin-bottom: 10px;
-        }
-
-        .login-form {
-            text-align: center;
-        }
-
-        .forgot a {
-            color: #777777;
-            font-size: 14px;
-            text-decoration: underline;
-        }
-
-        .login-form .btn.btn-primary {
-            background: #f0ad4e none repeat scroll 0 0;
-            border-color: #f0ad4e;
-            color: #ffffff;
-            font-size: 14px;
-            width: 100%;
-            height: 50px;
-            line-height: 50px;
-            padding: 0;
-        }
-
-        .forgot {
-            text-align: left;
-            margin-bottom: 30px;
-        }
-
-        .botto-text {
-            color: #ffffff;
-            font-size: 14px;
-            margin: auto;
-        }
-
-        .login-form .btn.btn-success.reset {
-            background: #ff9900 none repeat scroll 0 0;
-        }
-
-        .back {
-            text-align: left;
-            margin-top: 10px;
-        }
-
-        .back a {
-            color: #444444;
-            font-size: 13px;
-            text-decoration: none;
-        }
-
-    </Style>
 </head>
 <body>
 
@@ -132,18 +43,28 @@
                 <p>Telefon (z kodem kraju):</p>
                 <div class="form-group">
                     <form:input type="number" path="phone" class="form-control form-control-sm"
-                                placeholder="ex. 48303404505"></form:input>
+                                placeholder="ex. 48303404505" id="phone-number"></form:input>
+                    <button id="request-verification-btn" class="btn btn-outline-info">Wyślij sms weryfikacyjny</button>
                     <form:errors path="phone" cssClass="form-text text-danger" element="small"/>
+                </div>
+                <div class="form-group" id="verify-group" style="display:none">
+                    <input type="number" class="form-control form-control-sm"
+                           placeholder="Verification Code" id="verification-code"/>
+                    <button class="btn btn-outline-info" id="verify-btn">Weryfikuj</button>
+                </div>
+                <div class="form-group" id="verification-status" style="display:none">
+                    <h4>fill in jsp</h4>
                 </div>
 
                 <form:input path="id" type="hidden"/>
 
-                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                <button type="submit" class="btn btn-outline-primary">Zapisz</button>
 
             </form:form>
         </div>
     </div>
 
 </div>
+<script src="<c:url value="/js/phoneVerification.js" />"></script>
 </body>
 </html>
