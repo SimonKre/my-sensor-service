@@ -4,14 +4,15 @@ import com.skrezelok.mysensorservice.entity.Alert;
 import com.skrezelok.mysensorservice.entity.SensorData;
 import com.skrezelok.mysensorservice.repository.AlertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 public class AlertService {
 
-    @Qualifier("smsAlertMessenger")
     @Autowired
     AlertMessenger alertMessenger;
     @Autowired
@@ -19,8 +20,16 @@ public class AlertService {
 
     public void checkAlertsAndNotify(SensorData data) {
 
-        Alert alert = getAlert(data);
+        List<Alert> alerts = getEnabledAlerts(data);
 
+        if (!alerts.isEmpty()) {
+            for (Alert alert : alerts) {
+                checkAlertAndNotify(data, alert);
+            }
+        }
+    }
+
+    private void checkAlertAndNotify(SensorData data, Alert alert) {
         if (alert != null) {
 
             boolean isAlertTriggered = isAlertTriggered(data, alert);
@@ -47,16 +56,14 @@ public class AlertService {
         }
     }
 
-    private Alert getAlert(SensorData data) {
+    private List<Alert> getEnabledAlerts(SensorData data) {
 
-        for (Alert alert : data.getSensor().getAlerts()) {
+        List<Alert> alerts = data.getSensor().getAlerts().stream()
+                .filter(alert -> alert.getEnabled())
+                .filter(alert -> alert.getSensorDataType().equals(data.getSensorDataType()))
+                .collect(Collectors.toList());
 
-            if (alert.getSensorDataType().equals(data.getSensorDataType())) {
-                if (alert.getEnabled()) return alert;
-            }
-        }
-        System.out.println(data.getSensorDataType().getDescription() + " - brak alertu");
-        return null;
+        return alerts;
     }
 
     private boolean isAlertTriggered(SensorData data, Alert alert) {

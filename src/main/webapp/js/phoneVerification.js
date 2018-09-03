@@ -1,7 +1,9 @@
 $(document).ready(function () {
 
-    var requestVerificationCodeUrl = "http://localhost:8080/request-phone-verification/";
-    var phoneVerificationUrl = "http://localhost:8080/verify-phone/";
+    // var requestVerificationCodeUrl = "http://localhost:8080/request-phone-verification/";
+    // var phoneVerificationUrl = "http://localhost:8080/verify-phone/";
+    var requestVerificationCodeUrl = "request-phone-verification/";
+    var phoneVerificationUrl = "verify-phone/";
     var requestVerificationBtn = $("#request-verification-btn");
     var verifyGroup = $("#verify-group");
     var verificationStatus = $("#verification-status");
