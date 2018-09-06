@@ -15,6 +15,7 @@ public class Sensor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    //TODO implement individual sensor passwords
     private String password = "blablabla";
 
     private String name;
@@ -34,22 +35,10 @@ public class Sensor {
     @ManyToOne
     private UserDetails userDetails;
 
-    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "sensor")
-    private List<SensorData> sensorData = new ArrayList<>();
-
     private String location;
 
 
     public Sensor() {
-    }
-
-
-    public List<SensorData> getSensorData() {
-        return sensorData;
-    }
-
-    public void setSensorData(List<SensorData> sensorData) {
-        this.sensorData = sensorData;
     }
 
     public long getId() {

@@ -199,10 +199,10 @@ public class SensorController {
                 .get(0);
 
         if (sensor != null) {
+            sdr.deleteAllBySensorId(sensor.getId());
             sr.delete(sensor);
         }
 
         return "redirect:/";
     }
-
 }
