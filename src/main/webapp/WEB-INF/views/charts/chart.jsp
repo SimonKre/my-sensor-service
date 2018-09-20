@@ -13,7 +13,7 @@
     <%--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>--%>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        setTimeout("location.reload(true);", 10000);
+        // setTimeout("location.reload(true);", 10000);
         // Load the Visualization API.
         google.charts.load('current', {'packages':['corechart']});
 
