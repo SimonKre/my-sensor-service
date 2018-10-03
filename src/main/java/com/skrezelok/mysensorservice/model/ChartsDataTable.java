@@ -8,7 +8,6 @@ public class ChartsDataTable {
     private List<Row> rows;
 
 
-
     public ChartsDataTable() {
         this.cols = new ArrayList<>();
         this.rows = new ArrayList<>();

@@ -78,6 +78,9 @@ public class SensorController {
             String jsonData = googleChartJson.getGoogleChartJsonFromSensorData(sensor.getSensorType(),
                     sdr.findAllBySensorAndCreatedGreaterThanOrderByIdAsc(sensor, LocalDateTime.now().minusMinutes(360)));
             model.addAttribute("jsonData", jsonData);
+            System.out.println();
+            System.out.println(jsonData);
+            System.out.println();
             model.addAttribute("sensor", sensor);
         }
 

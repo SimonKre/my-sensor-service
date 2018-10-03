@@ -8,6 +8,7 @@ import com.skrezelok.mysensorservice.entity.SensorType;
 import org.springframework.stereotype.Component;
 
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -41,8 +42,10 @@ public class GoogleChartJson {
             if ((i + dataColsNum) % dataColsNum == 0) {
                 row = this.chartsDataTable.createRow();
                 //TODO make use of UTC time
-                row.addCell("Date(" + data.get(i).getCreated().atZone(ZoneId.of("Europe/Warsaw"))
-                        .toLocalDateTime().format(formatter) + ")", "");
+                row.addCell("Date(" + data.get(i).getCreated()
+                        //.atZone(ZoneId.of("+5"))
+                        //.toLocalDateTime()
+                        .format(formatter) + ")", "");
             }
 
             row.addCell(data.get(i).getValue(), String.format("%.2f", data.get(i).getValue()));

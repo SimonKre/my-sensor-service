@@ -32,28 +32,33 @@
                 //animation: { startup: 'true' },
                 legend: { position: 'top' },
                 // Gives each series an axis that matches the vAxes number below.
+                timeline: {
+                    groupByRowLabel: true
+                },
                 series: {
-                    0: {targetAxisIndex: 0},
+                    0: {targetAxisIndex: 2},
                     1: {targetAxisIndex: 0},
                     2: {targetAxisIndex: 1}
                 },
                 vAxes: {
                     // Adds titles to each axis.
-                    0: {title: 'Temp, Hum'},
-                    1: {title: 'Ciśnienie', minValue: 950,}
+                    0: {title: 'Hum'},
+                    1: {title: 'Ciśnienie', minValue: 950,},
+                    2: {title: 'Temp', minValue: 0, textPosition: 'in'}
                 },
                 vAxis: {
                     viewWindow: {
 
                     },
-                    gridlines: {count: 40},
+                    //gridlines: {count: 40},
                     //minValue: 10,
                     //title: 'C'
                 },
 
                 hAxis: {
-                    gridlines: {count: 24},
+                    //gridlines: {count: 24},
                     //viewWindowMode: 'pretty',
+                    format: 'kk:mm',
                 }
             };
             // Instantiate and draw our chart, passing in some options.
