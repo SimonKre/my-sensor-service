@@ -4,6 +4,7 @@ package com.skrezelok.mysensorservice.controller;
 import com.skrezelok.mysensorservice.entity.Alert;
 import com.skrezelok.mysensorservice.entity.Sensor;
 import com.skrezelok.mysensorservice.entity.security.User;
+import com.skrezelok.mysensorservice.model.ChartsOptionsJson;
 import com.skrezelok.mysensorservice.model.GoogleChartJson;
 import com.skrezelok.mysensorservice.repository.AlertRepository;
 import com.skrezelok.mysensorservice.repository.SensorDataRepository;
@@ -33,9 +34,11 @@ public class SensorController {
     @Autowired
     private AlertRepository ar;
     @Autowired
+    private SensorDataRepository sdr;
+    @Autowired
     private GoogleChartJson googleChartJson;
     @Autowired
-    private SensorDataRepository sdr;
+    private ChartsOptionsJson chartsOptionsJson;
 
     @GetMapping("{sensorId}/alerts")
     public String mySensorsAlerts(Authentication auth, Model model, @PathVariable long sensorId) {
@@ -78,8 +81,12 @@ public class SensorController {
             String jsonData = googleChartJson.getGoogleChartJsonFromSensorData(sensor.getSensorType(),
                     sdr.findAllBySensorAndCreatedGreaterThanOrderByIdAsc(sensor, LocalDateTime.now().minusMinutes(360)));
             model.addAttribute("jsonData", jsonData);
+
+            String jsonOptions = chartsOptionsJson.getChartsOptionsJson(sensor.getSensorType());
+            model.addAttribute("jsonOptions", jsonOptions);
+
             System.out.println();
-            System.out.println(jsonData);
+            System.out.println(chartsOptionsJson.getChartsOptionsJson(sensor.getSensorType()));
             System.out.println();
             model.addAttribute("sensor", sensor);
         }

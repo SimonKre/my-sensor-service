@@ -35,17 +35,17 @@
                 timeline: {
                     groupByRowLabel: true
                 },
-                series: {
-                    0: {targetAxisIndex: 2},
-                    1: {targetAxisIndex: 0},
-                    2: {targetAxisIndex: 1}
-                },
-                vAxes: {
-                    // Adds titles to each axis.
-                    0: {title: 'Hum'},
-                    1: {title: 'Ciśnienie', minValue: 950,},
-                    2: {title: 'Temp', minValue: 0, textPosition: 'in'}
-                },
+                // series: {
+                //     0: {targetAxisIndex: 2},
+                //     1: {targetAxisIndex: 0},
+                //     2: {targetAxisIndex: 1}
+                // },
+                // vAxes: {
+                //     // Adds titles to each axis.
+                //     0: {title: 'Hum'},
+                //     1: {title: 'Ciśnienie', minValue: 950,},
+                //     2: {title: 'Temp', minValue: 0, textPosition: 'in'}
+                // },
                 vAxis: {
                     viewWindow: {
 
@@ -61,6 +61,12 @@
                     format: 'kk:mm',
                 }
             };
+            var receivedOptions = JSON.parse('${jsonOptions}');
+            console.log(receivedOptions);
+            options.series = receivedOptions.series;
+            console.log(options);
+            options.vAxes = receivedOptions.vAxes;
+
             // Instantiate and draw our chart, passing in some options.
             // Do not forget to check your div ID
             var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
