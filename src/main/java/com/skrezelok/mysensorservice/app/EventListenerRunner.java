@@ -14,7 +14,7 @@ public class EventListenerRunner {
     }
 
     public void setDefaultTimezone() {
-        TimeZone.setDefault(TimeZone.getTimeZone("CEST"));
-        System.out.println("Setting timezone to CEST");
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris"));
+        System.out.println("Setting timezone to Europe/Paris");
     }
 }

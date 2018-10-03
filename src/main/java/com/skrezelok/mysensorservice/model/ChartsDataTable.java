@@ -3,13 +3,13 @@ package com.skrezelok.mysensorservice.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataTable {
+public class ChartsDataTable {
     private List<Column> cols;
     private List<Row> rows;
 
 
 
-    public DataTable() {
+    public ChartsDataTable() {
         this.cols = new ArrayList<>();
         this.rows = new ArrayList<>();
     }

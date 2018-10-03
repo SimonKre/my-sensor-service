@@ -15,31 +15,31 @@ import java.util.List;
 @Component
 public class GoogleChartJson {
 
-    private DataTable dataTable;
+    private ChartsDataTable chartsDataTable;
 
     public GoogleChartJson() {
 
     }
 
     public void initilize(SensorType sensorType) {
-        dataTable = new DataTable();
-        dataTable.addColumn("datetime", "datetime", "Data");
+        chartsDataTable = new ChartsDataTable();
+        chartsDataTable.addColumn("datetime", "datetime", "Data");
 
         for (SensorDataType type : sensorType.getSensorDataTypes()){
-            this.dataTable.addColumn("number", type.getType(), type.getDescription());
+            this.chartsDataTable.addColumn("number", type.getType(), type.getDescription());
         }
     }
 
     public String getGoogleChartJsonFromSensorData(SensorType sensorType, List<SensorData> data) {
 
-        DataTable.Row row = null;
+        ChartsDataTable.Row row = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy, MM, dd, HH, mm, ss");
-        int dataColsNum = this.dataTable.getCols().size() - 1;
+        int dataColsNum = this.chartsDataTable.getCols().size() - 1;
 
         for (int i = 0; i < data.size(); i++ ) {
 
             if ((i + dataColsNum) % dataColsNum == 0) {
-                row = this.dataTable.createRow();
+                row = this.chartsDataTable.createRow();
                 //TODO make use of UTC time
                 row.addCell("Date(" + data.get(i).getCreated().atZone(ZoneId.of("Europe/Warsaw"))
                         .toLocalDateTime().format(formatter) + ")", "");
@@ -55,7 +55,7 @@ public class GoogleChartJson {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
 
-        return gson.toJson(this.dataTable);
+        return gson.toJson(this.chartsDataTable);
     }
 
 }

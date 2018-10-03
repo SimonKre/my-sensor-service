@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+    <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
@@ -30,19 +30,30 @@
                 title: 'Sensor: ${sensor.name}',
                 curveType: 'function',
                 //animation: { startup: 'true' },
-                legend: { position: 'right' },
+                legend: { position: 'top' },
+                // Gives each series an axis that matches the vAxes number below.
+                series: {
+                    0: {targetAxisIndex: 0},
+                    1: {targetAxisIndex: 0},
+                    2: {targetAxisIndex: 1}
+                },
+                vAxes: {
+                    // Adds titles to each axis.
+                    0: {title: 'Temp, Hum'},
+                    1: {title: 'Ciśnienie', minValue: 950,}
+                },
                 vAxis: {
                     viewWindow: {
 
                     },
                     gridlines: {count: 40},
-                    minValue: 10,
+                    //minValue: 10,
                     //title: 'C'
                 },
 
                 hAxis: {
                     gridlines: {count: 24},
-                    viewWindowMode: 'pretty',
+                    //viewWindowMode: 'pretty',
                 }
             };
             // Instantiate and draw our chart, passing in some options.
